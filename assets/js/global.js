@@ -25,19 +25,23 @@ Ooge.global = {
 				switch(e.which) {
 					case 87:
 						//move up
-						app.player.moveUp();
+						alert("up");
+						//app.player.moveUp();
 						break;
 					case 65:
 						//move left
-						app.player.moveLeft();
+						alert("left");
+						//app.player.moveLeft();
 						break;
 					case 83:
 						//move down
-						app.player.moveDown();
+						alert("down");
+						//app.player.moveDown();
 						break;
 					case 68:
 						//move right
-						app.player.moveRight();
+						alert("right");
+						//app.player.moveRight();
 						break;
 				}
 			});
