@@ -178,6 +178,9 @@ Ooge.global = {
 							app.player.y = data.y;
 							app.player.radius = data.radius;
 							break;
+						case 'alert':
+							alert(data.alert);
+							break;
 					}
 				} catch (error) {
 					console.log(error);
