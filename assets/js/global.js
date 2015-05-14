@@ -68,6 +68,8 @@ Ooge.global = {
 		} else {
 			// Canvas not supported
 		}
+		app.Socket.setup();
+
 	},
 	gLoop: function() {
 		var app = Ooge.global;
@@ -107,7 +109,7 @@ Ooge.global = {
 		}
 
 		if (positionChanged === true) {
-			app.socket.updatePosition();
+			app.Socket.updatePosition();
 		}
 	},
 	Socket: {
