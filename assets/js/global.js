@@ -89,13 +89,15 @@ Ooge.global = {
 
 		if(app.player.moving.up) {
 			app.player.moveUp();
-		} else if(app.player.moving.down) {
+		}
+		if(app.player.moving.down) {
 			app.player.moveDown();
 		}
 
 		if(app.player.moving.right) {
 			app.player.moveRight();
-		} else if(app.player.moving.left) {
+		}
+		if(app.player.moving.left) {
 			app.player.moveLeft();
 		}
 	},
