@@ -117,7 +117,7 @@ Ooge.global = {
 
 		setup: function() {
 			var socket = Ooge.global.Socket;
-			socket.socket = new WebSocket('ws://127.0.0.1:9001/game');
+			socket.socket = new WebSocket('ws://g.ooge.uk:9001/game');
 			socket.socket.onopen = socket.event.onopen;
 			socket.socket.onerror = socket.event.onerror;
 			socket.socket.onmessage = socket.event.onmessage;
