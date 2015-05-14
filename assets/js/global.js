@@ -85,45 +85,61 @@ Ooge.global = {
 	},
 
 	Update: function() {
-		var app = Ooge.global;
+		var app = Ooge.global,
+			positionChanged = false;
 
 		if(app.player.moving.up) {
 			app.player.moveUp();
+			positionChanged = true;
 		}
 		if(app.player.moving.down) {
 			app.player.moveDown();
+			positionChanged = true;
 		}
 
 		if(app.player.moving.right) {
 			app.player.moveRight();
+			positionChanged = true;
 		}
 		if(app.player.moving.left) {
 			app.player.moveLeft();
+			positionChanged = true;
+		}
+
+		if (positionChanged === true) {
+			app.socket.updatePosition();
 		}
 	},
 	Socket: {
 		socket: null,
 
 		setup: function() {
-			var socket = Ooge.global.socket;
-			socket.socket = new WebSocket('ws://g.ooke.uk:9001/game');
-			socket.socket.onopen = socket.onopen;
-			socket.socket.onerror = socket.onerror;
-			socket.socket.onmessage = socket.onmessage;
-			socket.socket.onclose = socket.onclose;
+			var socket = Ooge.global.Socket;
+			socket.socket = new WebSocket('ws://127.0.0.1:9001/game');
+			socket.socket.onopen = socket.event.onopen;
+			socket.socket.onerror = socket.event.onerror;
+			socket.socket.onmessage = socket.event.onmessage;
+			socket.socket.onclose = socket.event.onclose;
 		},
-
-		onopen: function(e) {
-			console.log('Websocket connected successfully');
+		updatePosition: function() {
+			var player = Ooge.global.player,
+				socket = Ooge.global.Socket,
+				position = { type: 'position', x: player.x, y: player.y };
+			socket.socket.send(JSON.stringify(position));
 		},
-		onerror: function(error) {
-			console.log(error);
-		},
-		onmessage: function(e) {
-			console.log(e.data);
-		},
-		onclose: function() {
-			alert('The socket was closed :(');
+		event: {
+			onopen: function(e) {
+				console.log('Websocket connected successfully');
+			},
+			onerror: function(error) {
+				console.log(error);
+			},
+			onmessage: function(e) {
+				console.log(e.data);
+			},
+			onclose: function() {
+				alert('The socket was closed :(');
+			}
 		}
 	}
 };
@@ -147,11 +163,11 @@ Player.prototype.render = function() {
 	var app = Ooge.global;
 	app.ctx.fillStyle = 'rgb(255,0,0)';
 	app.ctx.fillRect(this.x, this.y, this.boundX, this.boundY);
-}
+};
 
 Player.prototype.update = function() {
 
-}
+};
 
 Player.prototype.moveLeft = function() {
 	this.x -= this.speed;
