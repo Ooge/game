@@ -148,6 +148,14 @@ Ooge.global = {
 				try {
 					var data = JSON.parse(e.data);
 					switch (data.type) {
+						case 'connect':
+							for (var index in data.players) {
+								var pl = data.players[index];
+								app.players[pl.player] = new Player(pl.x, pl.y, 60, 60, 5);
+							}
+							app.player.x = data.x;
+							app.player.y = data.y;
+							break;
 						case 'client_open':
 							app.players[data.player] = new Player(data.x, data.y, 50, 50, 5);
 							break;
