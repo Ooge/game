@@ -6,6 +6,7 @@ Ooge.global = {
 	ctx: null,
 	gameLoop: null,
 	player: null,
+	players: {},
 
 	handlers: {},
 	Init: function() {
@@ -137,7 +138,29 @@ Ooge.global = {
 				console.log(error);
 			},
 			onmessage: function(e) {
-				console.log(e.data);
+				var app = Ooge.global;
+				try {
+					var data = JSON.parse(e.data);
+					switch (data.type) {
+						case 'client_open':
+							app.players[data.player] = new Player(data.x, data.y, 300, 300, 5);
+							break;
+						case 'client_close':
+							app.players[data.player].destroy();
+							break;
+						case 'position_update':
+							var player = app.players[data.player];
+							player.x = data.x;
+							player.y = data.y;
+							break;
+						case 'position':
+							app.player.x = data.x;
+							app.player.y = data.y;
+							break;
+					}
+				} catch (error) {
+					console.log(e.data);
+				}
 			},
 			onclose: function() {
 				alert('The socket was closed :(');
@@ -185,6 +208,10 @@ Player.prototype.moveUp = function() {
 
 Player.prototype.moveDown = function() {
 	this.y += this.speed;
+};
+
+Player.prototype.destroy = function() {
+
 };
 
 Ooge.global.Init();
