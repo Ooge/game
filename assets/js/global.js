@@ -202,8 +202,10 @@ var Player = function(x, y, boundX, boundY, speed) {
 
 Player.prototype.render = function() {
 	var app = Ooge.global;
-	app.ctx.fillStyle = 'rgb(255,0,0)';
-	app.ctx.fillRect(this.x, this.y, this.boundX, this.boundY);
+	app.ctx.fillStyle = 'rgb('+Math.floor(Math.random() * 255) + 1+','+Math.floor(Math.random() * 255) + 1+','+Math.floor(Math.random() * 255) + 1+')';
+	ctx.beginPath();
+    ctx.arc(this.x,this.y,this.boundX,0,Math.PI*2,true);
+    ctx.fill();
 };
 
 Player.prototype.update = function() {
