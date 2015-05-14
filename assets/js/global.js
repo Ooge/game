@@ -145,6 +145,7 @@ Ooge.global = {
 			},
 			onmessage: function(e) {
 				var app = Ooge.global;
+				console.log(e.data);
 				try {
 					var data = JSON.parse(e.data);
 					switch (data.type) {
@@ -179,7 +180,6 @@ Ooge.global = {
 					}
 				} catch (error) {
 					console.log(error);
-					console.log(e.data);
 				}
 			},
 			onclose: function() {
