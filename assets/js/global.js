@@ -224,7 +224,7 @@ Player.prototype.update = function() {
 
 Player.prototype.moveLeft = function() {
 	this.x -= this.speed;
-	this.x = (this.x < 0 ? 0 : x);
+	this.x = (this.x < 0 ? 0 : this.x);
 };
 
 Player.prototype.moveRight = function() {
@@ -233,7 +233,7 @@ Player.prototype.moveRight = function() {
 
 Player.prototype.moveUp = function() {
 	this.y -= this.speed;
-	this.y = (this.y < 0 ? 0 : x);
+	this.y = (this.y < 0 ? 0 : this.y);
 };
 
 Player.prototype.moveDown = function() {
