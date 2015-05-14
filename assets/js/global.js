@@ -21,27 +21,23 @@ Ooge.global = {
 			app.player = new Player(300,300,50,50,1);
 
 			// Setup controls (please work)
-			$(document).keypress(function(e){
+			$(window).keypress(function(e){
 				switch(e.which) {
 					case 87:
 						//move up
-						alert("up");
-						//app.player.moveUp();
+						app.player.moveUp();
 						break;
 					case 65:
 						//move left
-						alert("left");
-						//app.player.moveLeft();
+						app.player.moveLeft();
 						break;
 					case 83:
 						//move down
-						alert("down");
-						//app.player.moveDown();
+						app.player.moveDown();
 						break;
 					case 68:
 						//move right
-						alert("right");
-						//app.player.moveRight();
+						app.player.moveRight();
 						break;
 				}
 			});
