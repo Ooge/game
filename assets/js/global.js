@@ -161,6 +161,7 @@ Ooge.global = {
 							break;
 						case 'client_close':
 							app.players[data.player].destroy();
+							delete app.players[data.player];
 							break;
 						case 'position_update':
 							var player = app.players[data.player];
