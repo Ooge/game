@@ -18,7 +18,7 @@ Ooge.global = {
 		app.canvas = document.getElementById('world');
 		if(app.canvas.getContext) {
 			app.ctx = app.canvas.getContext('2d');
-			app.player = new Player(300,300,50,50,1);
+			app.player = new Player(300,300,50,50,5);
 
 			// Setup controls (please work)
 			$(window).keydown(function(e){
