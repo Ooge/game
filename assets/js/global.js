@@ -295,15 +295,15 @@ var Player = function(x, y, boundX, boundY, speed, radius) {
 	Camera.prototype.update = function() {
 		var app = Ooge.global;
 		// horizontal
-		if (app.player.x - this.cameraX > this.canvasWidth) {
-			this.cameraX = app.player.x - this.canvasWidth;
+		if (app.player.x - this.cameraX + (this.canvasWidth/2) > this.canvasWidth) {
+			this.cameraX = app.player.x - (this.canvasWidth - (this.canvasWidth/2));
 		} else if (app.player.x < this.cameraX) {
 			this.cameraX = app.player.x;
 		}
 
 		// vertical
-		if (app.player.y - this.cameraY > this.canvasHeight) {
-			this.cameraY = app.player.y - this.canvasHeight;
+		if (app.player.y - this.cameraY + (this.canvasHeight/2) > this.canvasHeight) {
+			this.cameraY = app.player.y - (this.canvasHeight - (this.canvasHeight/2));
 		} else if (app.player.y < this.cameraY) {
 			this.cameraY = app.player.y;
 		}
