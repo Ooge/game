@@ -19,7 +19,7 @@ Ooge.global = {
 		app.canvas = document.getElementById('world');
 		if(app.canvas.getContext) {
 			app.ctx = app.canvas.getContext('2d');
-			app.player = new Player(300,300,50,50,5);
+			app.player = new Player(300,300,0,0,5,50);
 
 			// Setup controls (please work)
 			$(window).keydown(function(e){
@@ -151,13 +151,15 @@ Ooge.global = {
 						case 'connect':
 							for (var index in data.players) {
 								var pl = data.players[index];
-								app.players[pl.player] = new Player(pl.x, pl.y, 50, 50, 5);
+								app.players[pl.player] = new Player(pl.x, pl.y, 0, 0, 5, pl.radius);
 							}
 							app.player.x = data.x;
 							app.player.y = data.y;
+							app.player.colour = data.colour;
 							break;
 						case 'client_open':
-							app.players[data.player] = new Player(data.x, data.y, 50, 50, 5);
+							app.players[data.player] = new Player(data.x, data.y, 0, 0, 5, data.player.radius);
+							app.players[data.player].colour = data.colour;
 							break;
 						case 'client_close':
 							app.players[data.player].destroy();
@@ -167,10 +169,12 @@ Ooge.global = {
 							var player = app.players[data.player];
 							player.x = data.x;
 							player.y = data.y;
+							player.radius = data.radius;
 							break;
 						case 'position':
 							app.player.x = data.x;
 							app.player.y = data.y;
+							app.player.radius = data.radius;
 							break;
 					}
 				} catch (error) {
@@ -185,12 +189,14 @@ Ooge.global = {
 	}
 };
 
-var Player = function(x, y, boundX, boundY, speed) {
+var Player = function(x, y, boundX, boundY, speed, radius) {
 	this.x = x;
 	this.y = y;
 	this.boundX = boundX;
 	this.boundY = boundY;
+	this.radius = radius;
 	this.speed = speed;
+	this.colour = {};
 
 	this.moving = {
 		left: false,
@@ -202,9 +208,9 @@ var Player = function(x, y, boundX, boundY, speed) {
 
 Player.prototype.render = function() {
 	var app = Ooge.global;
-	app.ctx.fillStyle = 'rgb(255,0,0)';
+	app.ctx.fillStyle = 'rgb(' + this.colour.r + ',' + this.colour.g + ',' + this.colour.b + ')';
 	app.ctx.beginPath();
-    app.ctx.arc(this.x,this.y,this.boundX,0,Math.PI*2,true);
+    app.ctx.arc(this.x,this.y,this.radius,0,Math.PI*2,true);
     app.ctx.fill();
 };
 
