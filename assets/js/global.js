@@ -151,7 +151,7 @@ Ooge.global = {
 						case 'connect':
 							for (var index in data.players) {
 								var pl = data.players[index];
-								app.players[pl.player] = new Player(pl.x, pl.y, 60, 60, 5);
+								app.players[pl.player] = new Player(pl.x, pl.y, 50, 50, 5);
 							}
 							app.player.x = data.x;
 							app.player.y = data.y;
