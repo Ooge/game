@@ -153,6 +153,7 @@ Ooge.global = {
 							for (var index in data.players) {
 								var pl = data.players[index];
 								app.players[pl.player] = new Player(pl.x, pl.y, 0, 0, 5, pl.radius);
+								app.players[pl.player].colour = pl.colour;
 							}
 							app.player.x = data.x;
 							app.player.y = data.y;
