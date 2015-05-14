@@ -20,6 +20,28 @@ Ooge.global = {
 			app.ctx = app.canvas.getContext('2d');
 			app.player = new Player(300,300,50,50,1);
 
+			// Setup controls (please work)
+			$(document).keypress(function(e){
+				switch(e.which) {
+					case 87:
+						//move up
+						app.player.moveUp();
+						break;
+					case 65:
+						//move left
+						app.player.moveLeft();
+						break;
+					case 83:
+						//move down
+						app.player.moveDown();
+						break;
+					case 68:
+						//move right
+						app.player.moveRight();
+						break;
+				}
+			});
+
 			if(typeof app.gameLoop != 'undefined') clearInterval(app.gameLoop);
 			app.gameLoop = setInterval(app.gLoop, 17);
 		} else {
@@ -62,7 +84,7 @@ Player.prototype.render = function() {
 }
 
 Player.prototype.update = function() {
-	this.x += this.speed;
+	
 }
 
 Player.prototype.moveLeft = function() {
