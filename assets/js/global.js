@@ -7,6 +7,7 @@ Ooge.global = {
 	gameLoop: null,
 	player: null,
 	players: {},
+	world: null,
 
 	handlers: {},
 	Init: function() {
@@ -19,7 +20,7 @@ Ooge.global = {
 		app.canvas = document.getElementById('world');
 		if(app.canvas.getContext) {
 			app.ctx = app.canvas.getContext('2d');
-			app.player = new Player(300,300,0,0,5,50);
+			app.player = new Ooge.Player(300,300,0,0,5,50);
 
 			// Setup controls (please work)
 			$(window).keydown(function(e){
@@ -69,6 +70,8 @@ Ooge.global = {
 		} else {
 			// Canvas not supported
 		}
+		app.camera = new Ooge.Camera(0, 0, app.sWidth, app.sHeight, 5000, 5000);
+
 		app.Socket.setup();
 
 	},
@@ -84,11 +87,12 @@ Ooge.global = {
 
 	Render: function() {
 		var app = Ooge.global;
-		app.player.render();
+		app.camera.update();
 
+		app.player.render(app.camera.cameraX, app.camera.cameraY);
 		for (var index in app.players) {
 			if (app.players.hasOwnProperty(index)) {
-				app.players[index].render();
+				app.players[index].render(app.camera.cameraX, app.camera.cameraY);
 			}
 		}
 	},
@@ -152,7 +156,7 @@ Ooge.global = {
 						case 'connect':
 							for (var index in data.players) {
 								var pl = data.players[index];
-								app.players[pl.player] = new Player(pl.x, pl.y, 0, 0, 5, pl.radius);
+								app.players[pl.player] = new Ooge.Player(pl.x, pl.y, 0, 0, 5, pl.radius);
 								app.players[pl.player].colour = pl.colour;
 							}
 							app.player.x = data.x;
@@ -160,11 +164,10 @@ Ooge.global = {
 							app.player.colour = data.colour;
 							break;
 						case 'client_open':
-							app.players[data.player] = new Player(data.x, data.y, 0, 0, 5, data.radius);
+							app.players[data.player] = new Ooge.Player(data.x, data.y, 0, 0, 5, data.radius);
 							app.players[data.player].colour = data.colour;
 							break;
 						case 'client_close':
-							app.players[data.player].destroy();
 							delete app.players[data.player];
 							break;
 						case 'position_update':
@@ -209,39 +212,116 @@ var Player = function(x, y, boundX, boundY, speed, radius) {
 		down: false
 	};
 };
+(function() {
+	Player.prototype.render = function(cameraX, cameraY) {
+		var app = Ooge.global;
+		app.ctx.fillStyle = 'rgb(' + this.colour.r + ',' + this.colour.g + ',' + this.colour.b + ')';
+		app.ctx.beginPath();
+	    app.ctx.arc(this.x - cameraX,this.y - cameraY,this.radius,0,Math.PI*2,true);
+	    app.ctx.fill();
+	};
 
-Player.prototype.render = function() {
-	var app = Ooge.global;
-	app.ctx.fillStyle = 'rgb(' + this.colour.r + ',' + this.colour.g + ',' + this.colour.b + ')';
-	app.ctx.beginPath();
-    app.ctx.arc(this.x,this.y,this.radius,0,Math.PI*2,true);
-    app.ctx.fill();
-};
+	Player.prototype.update = function() {
 
-Player.prototype.update = function() {
+	};
 
-};
+	Player.prototype.moveLeft = function() {
+		this.x -= this.speed;
+		this.x = (this.x < 0 ? 0 : this.x);
+	};
 
-Player.prototype.moveLeft = function() {
-	this.x -= this.speed;
-	this.x = (this.x < 0 ? 0 : this.x);
-};
+	Player.prototype.moveRight = function() {
+		this.x += this.speed;
+	};
 
-Player.prototype.moveRight = function() {
-	this.x += this.speed;
-};
+	Player.prototype.moveUp = function() {
+		this.y -= this.speed;
+		this.y = (this.y < 0 ? 0 : this.y);
+	};
 
-Player.prototype.moveUp = function() {
-	this.y -= this.speed;
-	this.y = (this.y < 0 ? 0 : this.y);
-};
+	Player.prototype.moveDown = function() {
+		this.y += this.speed;
+	};
 
-Player.prototype.moveDown = function() {
-	this.y += this.speed;
-};
+	Ooge.Player = Player;
 
-Player.prototype.destroy = function() {
+	var Rectangle = function(left, top, width, height) {
+		this.left = left || 0;
+		this.top = top || 0;
+		this.width = width || 0;
+		this.height = height || 0;
+		this.right = this.left + this.width;
+		this.bottom = this.top + this.height;
+	};
+	Rectangle.prototype.set = function(left, top, width, height){
+	    this.left = left;
+	    this.top = top;
+	    this.width = width || this.width;
+	    this.height = height || this.height;
+	    this.right = (this.left + this.width);
+	    this.bottom = (this.top + this.height);
+	};
 
-};
+	Rectangle.prototype.within = function(r) {
+	    return (r.left <= this.left &&
+	            r.right >= this.right &&
+	            r.top <= this.top &&
+	            r.bottom >= this.bottom);
+	};
 
+	Rectangle.prototype.overlaps = function(r) {
+	    return (this.left < r.right &&
+	            r.left < this.right &&
+	            this.top < r.bottom &&
+	            r.top < this.bottom);
+	};
+
+	Ooge.Rectangle = Rectangle;
+
+	var Camera = function(initialX, initialY, canvasWidth, canvasHeight, worldWidth, worldHeight) {
+		this.canvasWidth = canvasWidth;
+		this.canvasHeight = canvasHeight;
+		this.worldWidth = worldWidth;
+		this.worldHeight = worldHeight;
+
+		this.cameraX = initialX || 0;
+		this.cameraY = initialY || 0;
+
+		this.viewportRect = new Ooge.Rectangle(this.cameraX, this.cameraY, this.canvasWidth, this.canvasHeight);
+
+		this.worldRect = new Ooge.Rectangle(0, 0, this.worldWidth, this.worldHeight);
+	};
+
+	Camera.prototype.update = function() {
+		var app = Ooge.global;
+		// horizontal
+		if (app.player.x - this.cameraX > this.canvasWidth) {
+			this.cameraX = app.player.x - this.canvasWidth;
+		} else if (app.player.x < this.cameraX) {
+			this.cameraX = app.player.x;
+		}
+
+		// vertical
+		if (app.player.y - this.cameraY > this.canvasHeight) {
+			this.cameraY = app.player.y - this.canvasHeight;
+		} else if (app.player.y < this.cameraY) {
+			this.cameraY = app.player.y;
+		}
+
+		this.viewportRect.set(this.cameraX, this.cameraY);
+		if (!this.viewportRect.within(this.worldRect)) {
+			if(this.viewportRect.left < this.worldRect.left)
+                this.cameraX = this.worldRect.left;
+            if(this.viewportRect.top < this.worldRect.top)
+                this.cameraY = this.worldRect.top;
+            if(this.viewportRect.right > this.worldRect.right)
+                this.cameraX = this.worldRect.right - this.canvasWidth;
+            if(this.viewportRect.bottom > this.worldRect.bottom)
+                this.cameraY = this.worldRect.bottom - this.canvasHeight;
+		}
+	};
+
+	Ooge.Camera = Camera;
+
+})();
 Ooge.global.Init();
