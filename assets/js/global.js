@@ -21,29 +21,50 @@ Ooge.global = {
 			app.player = new Player(300,300,50,50,1);
 
 			// Setup controls (please work)
-			$(window).keypress(function(e){
+			$(window).keydown(function(e){
 				switch(e.which) {
-					case 119:
+					case 87:
 						//move up
-						app.player.moveUp();
+						app.player.moving.up = true;
 						break;
-					case 97:
+					case 65:
 						//move left
-						app.player.moveLeft();
+						app.player.moving.left = true;
 						break;
-					case 115:
+					case 83:
 						//move down
-						app.player.moveDown();
+						app.player.moving.down = true;
 						break;
-					case 100:
+					case 68:
 						//move right
-						app.player.moveRight();
+						app.player.moving.right = true;
+						break;
+				}
+			});
+
+			$(window).keyup(function(e){
+				switch(e.which) {
+					case 87:
+						//move up
+						app.player.moving.up = false;
+						break;
+					case 65:
+						//move left
+						app.player.moving.left = false;
+						break;
+					case 83:
+						//move down
+						app.player.moving.down = false;
+						break;
+					case 68:
+						//move right
+						app.player.moving.right = false;
 						break;
 				}
 			});
 
 			if(typeof app.gameLoop != 'undefined') clearInterval(app.gameLoop);
-			app.gameLoop = setInterval(app.gLoop, 17);
+			app.gameLoop = setInterval(app.gLoop, 15);
 		} else {
 			// Canvas not supported
 		}
@@ -65,7 +86,18 @@ Ooge.global = {
 
 	Update: function() {
 		var app = Ooge.global;
-		app.player.update();
+		
+		if(app.player.moving.up) {
+			app.player.moveUp();
+		} else if(app.player.moving.down) {
+			app.player.moveDown();
+		}
+
+		if(app.player.moving.right) {
+			app.player.moveRight();
+		} else if(app.player.moving.left) {
+			app.player.moveLeft();
+		}
 	}
 };
 
@@ -75,6 +107,13 @@ var Player = function(x, y, boundX, boundY, speed) {
 	this.boundX = boundX;
 	this.boundY = boundY;
 	this.speed = speed;
+
+	this.moving = {
+		left: false,
+		up: false,
+		right: false,
+		down: false
+	};
 };
 
 Player.prototype.render = function() {
