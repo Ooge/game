@@ -149,7 +149,7 @@ Ooge.global = {
 					var data = JSON.parse(e.data);
 					switch (data.type) {
 						case 'client_open':
-							app.players[data.player] = new Player(data.x, data.y, 300, 300, 5);
+							app.players[data.player] = new Player(data.x, data.y, 50, 50, 5);
 							break;
 						case 'client_close':
 							app.players[data.player].destroy();
@@ -165,6 +165,7 @@ Ooge.global = {
 							break;
 					}
 				} catch (error) {
+					console.log(error);
 					console.log(e.data);
 				}
 			},
