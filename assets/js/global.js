@@ -23,19 +23,19 @@ Ooge.global = {
 			// Setup controls (please work)
 			$(window).keypress(function(e){
 				switch(e.which) {
-					case 87:
+					case 119:
 						//move up
 						app.player.moveUp();
 						break;
-					case 65:
+					case 97:
 						//move left
 						app.player.moveLeft();
 						break;
-					case 83:
+					case 115:
 						//move down
 						app.player.moveDown();
 						break;
-					case 68:
+					case 100:
 						//move right
 						app.player.moveRight();
 						break;
