@@ -86,7 +86,7 @@ Ooge.global = {
 
 	Update: function() {
 		var app = Ooge.global;
-		
+
 		if(app.player.moving.up) {
 			app.player.moveUp();
 		} else if(app.player.moving.down) {
@@ -97,6 +97,31 @@ Ooge.global = {
 			app.player.moveRight();
 		} else if(app.player.moving.left) {
 			app.player.moveLeft();
+		}
+	},
+	Socket: {
+		socket: null,
+
+		setup: function() {
+			var socket = Ooge.global.socket;
+			socket.socket = new WebSocket('ws://g.ooke.uk:9001/game');
+			socket.socket.onopen = socket.onopen;
+			socket.socket.onerror = socket.onerror;
+			socket.socket.onmessage = socket.onmessage;
+			socket.socket.onclose = socket.onclose;
+		},
+
+		onopen: function(e) {
+			console.log('Websocket connected successfully');
+		},
+		onerror: function(error) {
+			console.log(error);
+		},
+		onmessage: function(e) {
+			console.log(e.data);
+		},
+		onclose: function() {
+			alert('The socket was closed :(');
 		}
 	}
 };
@@ -123,7 +148,7 @@ Player.prototype.render = function() {
 }
 
 Player.prototype.update = function() {
-	
+
 }
 
 Player.prototype.moveLeft = function() {
