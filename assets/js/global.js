@@ -160,7 +160,7 @@ Ooge.global = {
 							app.player.colour = data.colour;
 							break;
 						case 'client_open':
-							app.players[data.player] = new Player(data.x, data.y, 0, 0, 5, data.player.radius);
+							app.players[data.player] = new Player(data.x, data.y, 0, 0, 5, data.radius);
 							app.players[data.player].colour = data.colour;
 							break;
 						case 'client_close':
