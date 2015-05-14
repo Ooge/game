@@ -1,0 +1,10 @@
+html,
+body {
+	max-height:100%;
+	overflow:hidden;
+}
+
+canvas#world {
+	padding:0;
+	margin:0;
+}
