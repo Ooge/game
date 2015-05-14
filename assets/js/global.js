@@ -85,6 +85,12 @@ Ooge.global = {
 	Render: function() {
 		var app = Ooge.global;
 		app.player.render();
+
+		for (var index in app.players) {
+			if (app.players.hasOwnProperty(index)) {
+				app.players[index].render();
+			}
+		}
 	},
 
 	Update: function() {
