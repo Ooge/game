@@ -71,7 +71,7 @@ Ooge.global = {
 			// Canvas not supported
 		}
 		app.camera = new Ooge.Camera(0, 0, app.sWidth, app.sHeight, 5000, 5000);
-		app.map = new Map(null, 5000, 5000);
+		app.map = new Ooge.Map(null, 5000, 5000);
 
 		app.Socket.setup();
 
