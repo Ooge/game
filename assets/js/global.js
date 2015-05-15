@@ -324,7 +324,7 @@ Ooge.global = {
 			if(this.viewportRect.left < this.worldRect.left)
                 this.cameraX = this.worldRect.left;
             if(this.viewportRect.top < this.worldRect.top)
-                this.cameraY = this.worldRectd.top;
+                this.cameraY = this.worldRect.top;
             if(this.viewportRect.right > this.worldRect.right)
                 this.cameraX = this.worldRect.right - this.canvasWidth;
             if(this.viewportRect.bottom > this.worldRect.bottom)
