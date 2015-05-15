@@ -315,8 +315,8 @@ Ooge.global = {
 		// vertical
 		if (app.player.y - this.cameraY + (this.canvasHeight/4) > this.canvasHeight) {
 			this.cameraY = app.player.y - (this.canvasHeight - (this.canvasHeight/4));
-		} else if (app.player.y - this.cameraY - (this.canvasWidth/4) < 0) {
-			this.cameraY = app.player.y - (this.canvasWidth/4);
+		} else if (app.player.y - this.cameraY - (this.canvasHeight/4) < 0) {
+			this.cameraY = app.player.y - (this.canvasHeight/4);
 		}
 
 		this.viewportRect.set(this.cameraX, this.cameraY);
