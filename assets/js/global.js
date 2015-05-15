@@ -359,7 +359,7 @@ Ooge.global = {
 	Map.prototype.draw_grid = function(cameraX, cameraY) {
 		var app = Ooge.global,
 			ctx = app.ctx,
-			gridSize = 20;
+			gridSize = 60;
 		var xOffset = gridSize - (cameraX % gridSize),
 			yOffset = gridSize - (cameraY % gridSize);
 		xOffset = (xOffset == gridSize ? 0 : xOffset);
@@ -372,7 +372,8 @@ Ooge.global = {
 			ctx.moveTo(0, 0.5 + y);
 			ctx.lineTo(this.width, 0.5 + y);
 		}
-		ctx.strokeStyle = 'grey';
+		ctx.strokeStyle = 'rgb(220,220,220)';
+		ctx.lineWidth = 1.5;
 		ctx.stroke();
 		ctx.closePath();
 	};
