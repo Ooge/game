@@ -355,15 +355,15 @@ Ooge.global = {
 		var app = Ooge.global,
 			ctx = app.canvas.getContext('2d');
 		for (var x = 0; x <= this.width; x += 40) {
-			context.moveTo(0.5 + x, 0);
-			context.lineTo(this.width, 0.5 + x);
+			ctx.moveTo(0.5 + x, 0);
+			ctx.lineTo(this.width, 0.5 + x);
 		}
 		for (var y = 0; y <= this.height; y += 40) {
-			context.moveTo(0, 0.5 + y);
-			context.lineTo(this.height, 0.5 + y);
+			ctx.moveTo(0, 0.5 + y);
+			ctx.lineTo(this.height, 0.5 + y);
 		}
-		context.strokeStyle = 'black';
-		context.stroke();
+		ctx.strokeStyle = 'black';
+		ctx.stroke();
 	};
 
 	Ooge.Map = Map;
