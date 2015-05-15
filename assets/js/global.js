@@ -228,9 +228,12 @@ Ooge.global = {
 	Player.prototype.render = function(cameraX, cameraY) {
 		var app = Ooge.global;
 		app.ctx.fillStyle = 'rgb(' + this.colour.r + ',' + this.colour.g + ',' + this.colour.b + ')';
+		app.ctx.strokeStyle = 'rgb(' + (this.colour.r - 30 )+ ',' + (this.colour.g - 30 ) + ',' + (this.colour.b - 30 ) + ')';
+		app.ctx.lineWidth = 10;
 		app.ctx.beginPath();
 	    app.ctx.arc(this.x - cameraX,this.y - cameraY,this.radius,0,Math.PI*2,true);
 	    app.ctx.fill();
+	    app.ctx.stroke();
 		app.ctx.closePath();
 	};
 
