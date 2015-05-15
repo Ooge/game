@@ -8,6 +8,8 @@ Ooge.global = {
 	player: null,
 	players: {},
 	map: null,
+	world_height: 5000,
+	world_width: 5000,
 
 	handlers: {},
 	Init: function() {
@@ -70,7 +72,7 @@ Ooge.global = {
 		} else {
 			// Canvas not supported
 		}
-		app.camera = new Ooge.Camera(0, 0, app.sWidth, app.sHeight, 5000, 5000);
+		app.camera = new Ooge.Camera(0, 0, app.sWidth, app.sHeight, app.world_width, app.world_height);
 		app.map = new Ooge.Map(null, app.sWidth, app.sHeight);
 
 		app.Socket.setup();
@@ -239,6 +241,7 @@ Ooge.global = {
 	Player.prototype.moveLeft = function() {
 		this.x -= this.speed;
 		this.x = (this.x < 0 ? 0 : this.x);
+		this.x = (this.x > Ooge.global.map_width ? Ooge.global.map_width : this.x);
 	};
 
 	Player.prototype.moveRight = function() {
@@ -248,6 +251,7 @@ Ooge.global = {
 	Player.prototype.moveUp = function() {
 		this.y -= this.speed;
 		this.y = (this.y < 0 ? 0 : this.y);
+		this.y = (this.y > Ooge.global.map_height ? Ooge.global.map_height : this.y);
 	};
 
 	Player.prototype.moveDown = function() {
