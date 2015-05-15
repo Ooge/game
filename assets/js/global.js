@@ -324,7 +324,7 @@ Ooge.global = {
 			if(this.viewportRect.left < this.worldRect.left)
                 this.cameraX = this.worldRect.left;
             if(this.viewportRect.top < this.worldRect.top)
-                this.cameraY = this.worldRect.top;
+                this.cameraY = this.worldRectd.top;
             if(this.viewportRect.right > this.worldRect.right)
                 this.cameraX = this.worldRect.right - this.canvasWidth;
             if(this.viewportRect.bottom > this.worldRect.bottom)
@@ -358,6 +358,8 @@ Ooge.global = {
 			gridSize = 20;
 		var xOffset = gridSize - (cameraX % gridSize),
 			yOffset = gridSize - (cameraY % gridSize);
+		xOffset = (xOffset == gridSize ? 0 : xOffset);
+		yOffset = (yOffset == gridSize ? 0 : yOffset);
 		for (var x = xOffset; x <= this.width; x += gridSize) {
 			ctx.moveTo(0.5 + x, 0);
 			ctx.lineTo(0.5 + x, this.height);
@@ -366,7 +368,7 @@ Ooge.global = {
 			ctx.moveTo(0, 0.5 + y);
 			ctx.lineTo(this.width, 0.5 + y);
 		}
-		ctx.strokeStyle = 'black';
+		ctx.strokeStyle = 'grey';
 		ctx.stroke();
 		ctx.closePath();
 	};
