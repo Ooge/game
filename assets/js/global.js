@@ -7,7 +7,7 @@ Ooge.global = {
 	gameLoop: null,
 	player: null,
 	players: {},
-	world: null,
+	map: null,
 
 	handlers: {},
 	Init: function() {
@@ -71,6 +71,7 @@ Ooge.global = {
 			// Canvas not supported
 		}
 		app.camera = new Ooge.Camera(0, 0, app.sWidth, app.sHeight, 5000, 5000);
+		app.map = new Map(null, 5000, 5000);
 
 		app.Socket.setup();
 
@@ -90,6 +91,7 @@ Ooge.global = {
 		app.camera.update();
 
 		app.player.render(app.camera.cameraX, app.camera.cameraY);
+		app.map.draw_grid(app.camera.cameraX, app.camera.cameraY);
 		for (var index in app.players) {
 			if (app.players.hasOwnProperty(index)) {
 				app.players[index].render(app.camera.cameraX, app.camera.cameraY);
@@ -138,7 +140,13 @@ Ooge.global = {
 			var player = Ooge.global.player,
 				socket = Ooge.global.Socket,
 				position = { type: 'position', x: player.x, y: player.y };
-			socket.socket.send(JSON.stringify(position));
+			socket.send(JSON.stringify(position));
+		},
+		send: function(msg) {
+			try {
+				var socket = Ooge.global.Socket;
+				socket.socket.send(msg);
+			} catch (ex) {}
 		},
 		event: {
 			onopen: function(e) {
@@ -196,23 +204,25 @@ Ooge.global = {
 	}
 };
 
-var Player = function(x, y, boundX, boundY, speed, radius) {
-	this.x = x;
-	this.y = y;
-	this.boundX = boundX;
-	this.boundY = boundY;
-	this.radius = radius;
-	this.speed = speed;
-	this.colour = {};
-
-	this.moving = {
-		left: false,
-		up: false,
-		right: false,
-		down: false
-	};
-};
 (function() {
+
+	var Player = function(x, y, boundX, boundY, speed, radius) {
+		this.x = x;
+		this.y = y;
+		this.boundX = boundX;
+		this.boundY = boundY;
+		this.radius = radius;
+		this.speed = speed;
+		this.colour = {};
+
+		this.moving = {
+			left: false,
+			up: false,
+			right: false,
+			down: false
+		};
+	};
+
 	Player.prototype.render = function(cameraX, cameraY) {
 		var app = Ooge.global;
 		app.ctx.fillStyle = 'rgb(' + this.colour.r + ',' + this.colour.g + ',' + this.colour.b + ')';
@@ -323,5 +333,39 @@ var Player = function(x, y, boundX, boundY, speed, radius) {
 
 	Ooge.Camera = Camera;
 
+	var Map = function(image, width, height) {
+		this.image = image;
+		this.width = width;
+		this.height = height;
+	};
+	Map.prototype.draw_image = function(cameraX, cameraY) {
+		var app = Ooge.global;
+		var sx = cameraX,
+			sy = cameraY, dx = 0, dy = 0;
+		var sWidth = app.sWidth,
+			sHeight = app.sHeight, dWidth, dHeight;
+		sWidth = (this.image.width - sx < sWidth ? this.image.width - sx : sWidth);
+		sHeight = (this.image.height - sy < sHeight ? this.image.height - sy : sHeight);
+		dWidth = sWidth;
+		dHeight = sHeight;
+
+		app.ctx.drawImage(this.image, sx, sy, sWidth, sHeight, dx ,dy, dWidth, dHeight);
+	};
+	Map.prototype.draw_grid = function(cameraX, cameraY) {
+		var app = Ooge.global,
+			ctx = app.canvas.getContext('2d');
+		for (var x = 0; x <= this.width; x += 40) {
+			context.moveTo(0.5 + x, 0);
+			context.lineTo(this.width, 0.5 + x);
+		}
+		for (var y = 0; y <= this.height; y += 40) {
+			context.moveTo(0, 0.5 + y);
+			context.lineTo(this.height, 0.5 + y);
+		}
+		context.strokeStyle = 'black';
+		context.stroke();
+	};
+
+	Ooge.Map = Map;
 })();
 Ooge.global.Init();
