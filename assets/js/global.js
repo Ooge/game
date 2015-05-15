@@ -71,7 +71,7 @@ Ooge.global = {
 			// Canvas not supported
 		}
 		app.camera = new Ooge.Camera(0, 0, app.sWidth, app.sHeight, 5000, 5000);
-		app.map = new Ooge.Map(null, 5000, 5000);
+		app.map = new Ooge.Map(null, app.sWidth, app.sHeight);
 
 		app.Socket.setup();
 
@@ -90,13 +90,13 @@ Ooge.global = {
 		var app = Ooge.global;
 		app.camera.update();
 
-		app.player.render(app.camera.cameraX, app.camera.cameraY);
 		app.map.draw_grid(app.camera.cameraX, app.camera.cameraY);
 		for (var index in app.players) {
 			if (app.players.hasOwnProperty(index)) {
 				app.players[index].render(app.camera.cameraX, app.camera.cameraY);
 			}
 		}
+		app.player.render(app.camera.cameraX, app.camera.cameraY);
 	},
 
 	Update: function() {
@@ -356,14 +356,15 @@ Ooge.global = {
 			ctx = app.canvas.getContext('2d');
 		for (var x = 0; x <= this.width; x += 40) {
 			ctx.moveTo(0.5 + x, 0);
-			ctx.lineTo(this.width, 0.5 + x);
+			ctx.lineTo(0.5 + x, this.height);
 		}
 		for (var y = 0; y <= this.height; y += 40) {
 			ctx.moveTo(0, 0.5 + y);
-			ctx.lineTo(this.height, 0.5 + y);
+			ctx.lineTo(this.width, 0.5 + y);
 		}
 		ctx.strokeStyle = 'black';
 		ctx.stroke();
+		ctx = null;
 	};
 
 	Ooge.Map = Map;
