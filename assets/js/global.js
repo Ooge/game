@@ -10,6 +10,7 @@ Ooge.global = {
 	map: null,
 	world_height: 5000,
 	world_width: 5000,
+	scale: 1.0,
 
 	handlers: {},
 	Init: function() {
@@ -90,6 +91,8 @@ Ooge.global = {
 
 	Render: function() {
 		var app = Ooge.global;
+		// calculate new scale
+		app.scale = app.calculate_scale(app.player.radius);
 		app.camera.update();
 
 		app.map.draw_grid(app.camera.cameraX, app.camera.cameraY);
@@ -203,6 +206,9 @@ Ooge.global = {
 				alert('The socket was closed :(');
 			}
 		}
+	},
+	calculate_scale: function(radius) {
+		return 1 / (radius / 50);
 	}
 };
 
@@ -231,7 +237,7 @@ Ooge.global = {
 		app.ctx.strokeStyle = 'rgb(' + (this.colour.r - 30 )+ ',' + (this.colour.g - 30 ) + ',' + (this.colour.b - 30 ) + ')';
 		app.ctx.lineWidth = 10;
 		app.ctx.beginPath();
-	    app.ctx.arc(this.x - cameraX,this.y - cameraY,this.radius,0,Math.PI*2,true);
+	    app.ctx.arc(this.x - cameraX,this.y - cameraY,this.radius*app.scale,0,Math.PI*2,true);
 	    app.ctx.fill();
 	    app.ctx.stroke();
 		app.ctx.closePath();
@@ -362,7 +368,7 @@ Ooge.global = {
 	Map.prototype.draw_grid = function(cameraX, cameraY) {
 		var app = Ooge.global,
 			ctx = app.ctx,
-			gridSize = 60;
+			gridSize = 60 * app.scale;
 		var xOffset = gridSize - (cameraX % gridSize),
 			yOffset = gridSize - (cameraY % gridSize);
 		xOffset = (xOffset == gridSize ? 0 : xOffset);
