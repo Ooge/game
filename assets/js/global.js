@@ -229,6 +229,7 @@ Ooge.global = {
 		app.ctx.beginPath();
 	    app.ctx.arc(this.x - cameraX,this.y - cameraY,this.radius,0,Math.PI*2,true);
 	    app.ctx.fill();
+		app.ctx.closePath();
 	};
 
 	Player.prototype.update = function() {
@@ -353,18 +354,21 @@ Ooge.global = {
 	};
 	Map.prototype.draw_grid = function(cameraX, cameraY) {
 		var app = Ooge.global,
-			ctx = app.canvas.getContext('2d');
-		for (var x = 0; x <= this.width; x += 40) {
+			ctx = app.ctx,
+			gridSize = 20;
+		var xOffset = cameraX % gridSize,
+			yOffset = cameraY % gridSize;
+		for (var x = xOffset; x <= this.width; x += gridSize) {
 			ctx.moveTo(0.5 + x, 0);
 			ctx.lineTo(0.5 + x, this.height);
 		}
-		for (var y = 0; y <= this.height; y += 40) {
+		for (var y = yOffset; y <= this.height; y += gridSize) {
 			ctx.moveTo(0, 0.5 + y);
 			ctx.lineTo(this.width, 0.5 + y);
 		}
 		ctx.strokeStyle = 'black';
 		ctx.stroke();
-		ctx = null;
+		ctx.closePath();
 	};
 
 	Ooge.Map = Map;
