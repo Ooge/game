@@ -241,21 +241,21 @@ Ooge.global = {
 	Player.prototype.moveLeft = function() {
 		this.x -= this.speed;
 		this.x = (this.x < 0 ? 0 : this.x);
-		this.x = (this.x > Ooge.global.world_width ? Ooge.global.world_width : this.x);
 	};
 
 	Player.prototype.moveRight = function() {
 		this.x += this.speed;
+		this.x = (this.x > Ooge.global.world_width ? Ooge.global.world_width : this.x);
 	};
 
 	Player.prototype.moveUp = function() {
 		this.y -= this.speed;
 		this.y = (this.y < 0 ? 0 : this.y);
-		this.y = (this.y > Ooge.global.world_height ? Ooge.global.world_height : this.y);
 	};
 
 	Player.prototype.moveDown = function() {
 		this.y += this.speed;
+		this.y = (this.y > Ooge.global.world_height ? Ooge.global.world_height : this.y);
 	};
 
 	Ooge.Player = Player;
