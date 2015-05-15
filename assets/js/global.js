@@ -241,7 +241,7 @@ Ooge.global = {
 	Player.prototype.moveLeft = function() {
 		this.x -= this.speed;
 		this.x = (this.x < 0 ? 0 : this.x);
-		this.x = (this.x > Ooge.global.map_width ? Ooge.global.map_width : this.x);
+		this.x = (this.x > Ooge.global.world_width ? Ooge.global.world_width : this.x);
 	};
 
 	Player.prototype.moveRight = function() {
@@ -251,7 +251,7 @@ Ooge.global = {
 	Player.prototype.moveUp = function() {
 		this.y -= this.speed;
 		this.y = (this.y < 0 ? 0 : this.y);
-		this.y = (this.y > Ooge.global.map_height ? Ooge.global.map_height : this.y);
+		this.y = (this.y > Ooge.global.world_height ? Ooge.global.world_height : this.y);
 	};
 
 	Player.prototype.moveDown = function() {
