@@ -306,15 +306,15 @@ Ooge.global = {
 	Camera.prototype.update = function() {
 		var app = Ooge.global;
 		// horizontal
-		if (app.player.x - this.cameraX + (this.canvasWidth/2) > this.canvasWidth) {
-			this.cameraX = app.player.x - (this.canvasWidth - (this.canvasWidth/2));
+		if (app.player.x - this.cameraX + (this.canvasWidth/4) > this.canvasWidth) {
+			this.cameraX = app.player.x - (this.canvasWidth - (this.canvasWidth/4));
 		} else if (app.player.x < this.cameraX) {
 			this.cameraX = app.player.x;
 		}
 
 		// vertical
-		if (app.player.y - this.cameraY + (this.canvasHeight/2) > this.canvasHeight) {
-			this.cameraY = app.player.y - (this.canvasHeight - (this.canvasHeight/2));
+		if (app.player.y - this.cameraY + (this.canvasHeight/4) > this.canvasHeight) {
+			this.cameraY = app.player.y - (this.canvasHeight - (this.canvasHeight/4));
 		} else if (app.player.y < this.cameraY) {
 			this.cameraY = app.player.y;
 		}
