@@ -369,6 +369,8 @@ Ooge.global = {
 			yOffset = gridSize - (cameraY % gridSize);
 		xOffset = (xOffset == gridSize ? 0 : xOffset);
 		yOffset = (yOffset == gridSize ? 0 : yOffset);
+		xOffset = (cameraX < 0 ? xOffset - gridSize : xOffset);
+		yOffset = (cameraY < 0 ? yOffset - gridSize : yOffset);
 		for (var x = xOffset; x <= app.sWidth; x += gridSize) {
 			ctx.moveTo(0.5 + x, 0);
 			ctx.lineTo(0.5 + x, app.sHeight);
