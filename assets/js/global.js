@@ -355,10 +355,8 @@ Ooge.global = {
 
 	Ooge.Camera = Camera;
 
-	var Map = function(image, width, height) {
+	var Map = function(image) {
 		this.image = image;
-		this.width = width;
-		this.height = height;
 	};
 	Map.prototype.draw_image = function(cameraX, cameraY) {
 		var app = Ooge.global;
@@ -381,13 +379,13 @@ Ooge.global = {
 			yOffset = gridSize - (cameraY % gridSize);
 		xOffset = (xOffset == gridSize ? 0 : xOffset);
 		yOffset = (yOffset == gridSize ? 0 : yOffset);
-		for (var x = xOffset; x <= this.width; x += gridSize) {
+		for (var x = xOffset; x <= app.sWidth; x += gridSize) {
 			ctx.moveTo(0.5 + x, 0);
-			ctx.lineTo(0.5 + x, this.height);
+			ctx.lineTo(0.5 + x, app.sHeight);
 		}
-		for (var y = yOffset; y <= this.height; y += gridSize) {
+		for (var y = yOffset; y <= app.sHeight; y += gridSize) {
 			ctx.moveTo(0, 0.5 + y);
-			ctx.lineTo(this.width, 0.5 + y);
+			ctx.lineTo(app.sWidth, 0.5 + y);
 		}
 		ctx.strokeStyle = 'rgb(220,220,220)';
 		ctx.lineWidth = 1.5;
