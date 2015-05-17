@@ -19,7 +19,8 @@ Ooge.global = {
 			width: app.sWidth,
 			height: app.sHeight
 		});
-		$(window).on('resize', function() {
+		$(window)
+		.on('resize', function() {
 			app.sWidth = window.innerWidth;
 			app.sHeight = window.innerHeight;
 			$('canvas#world').attr({
@@ -28,6 +29,14 @@ Ooge.global = {
 			});
 			app.camera.canvasWidth = app.sWidth;
 			app.camera.canvasHeight = app.sHeight;
+		})
+		.on('focusout', function() {
+			app.player.moving = {
+				left: false,
+				right: false,
+				up: false,
+				down: false
+			};
 		});
 
 		app.canvas = document.getElementById('world');
