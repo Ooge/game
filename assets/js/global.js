@@ -319,17 +319,17 @@ Ooge.global = {
 	Camera.prototype.update = function() {
 		var app = Ooge.global;
 		// horizontal
-		if (app.player.x - this.cameraX + (this.canvasWidth/4) > this.canvasWidth) {
-			this.cameraX = app.player.x - (this.canvasWidth - (this.canvasWidth/4));
-		} else if (app.player.x - this.cameraX - (this.canvasWidth/4) < 0) {
-			this.cameraX = app.player.x - (this.canvasWidth/4);
+		if (app.player.x - this.cameraX/* + (this.canvasWidth/4)*/ > this.canvasWidth) {
+			this.cameraX = app.player.x - (this.canvasWidth/* - (this.canvasWidth/4)*/);
+		} else if (app.player.x - this.cameraX/* - (this.canvasWidth/4)*/ < 0) {
+			this.cameraX = app.player.x/* - (this.canvasWidth/4)*/;
 		}
 
 		// vertical
-		if (app.player.y - this.cameraY + (this.canvasHeight/4) > this.canvasHeight) {
-			this.cameraY = app.player.y - (this.canvasHeight - (this.canvasHeight/4));
-		} else if (app.player.y - this.cameraY - (this.canvasHeight/4) < 0) {
-			this.cameraY = app.player.y - (this.canvasHeight/4);
+		if (app.player.y - this.cameraY/* + (this.canvasHeight/4)*/ > this.canvasHeight) {
+			this.cameraY = app.player.y - (this.canvasHeight/* - (this.canvasHeight/4)*/);
+		} else if (app.player.y - this.cameraY/* - (this.canvasHeight/4)*/ < 0) {
+			this.cameraY = app.player.y/* - (this.canvasHeight/4)*/;
 		}
 
 		this.viewportRect.set(this.cameraX, this.cameraY);
