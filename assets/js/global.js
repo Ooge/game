@@ -19,6 +19,14 @@ Ooge.global = {
 			width: app.sWidth,
 			height: app.sHeight
 		});
+		$(window).on('resize', function() {
+			app.sWidth = window.innerWidth;
+			app.sHeight = window.innerHeight;
+			$('canvas#world').attr({
+				width: app.sWidth,
+				height: app.sHeight
+			});
+		});
 
 		app.canvas = document.getElementById('world');
 		if(app.canvas.getContext) {
