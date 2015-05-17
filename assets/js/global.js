@@ -26,6 +26,8 @@ Ooge.global = {
 				width: app.sWidth,
 				height: app.sHeight
 			});
+			app.camera.canvasWidth = app.sWidth;
+			app.camera.canvasHeight = app.sHeight;
 		});
 
 		app.canvas = document.getElementById('world');
@@ -245,7 +247,7 @@ Ooge.global = {
 		app.ctx.strokeStyle = 'rgb(' + (this.colour.r - 30 )+ ',' + (this.colour.g - 30 ) + ',' + (this.colour.b - 30 ) + ')';
 		app.ctx.lineWidth = 10 * app.scale;
 		app.ctx.beginPath();
-	    app.ctx.arc(this.x - cameraX,this.y - cameraY,this.radius*app.scale,0,Math.PI*2,true);
+	    app.ctx.arc(this.x + (this.radius/2) - cameraX,this.y + (this.radius/2) - cameraY,this.radius*app.scale,0,Math.PI*2,true);
 	    app.ctx.fill();
 	    app.ctx.stroke();
 		app.ctx.closePath();
@@ -325,32 +327,10 @@ Ooge.global = {
 	};
 
 	Camera.prototype.update = function() {
-		var app = Ooge.global;
-		// horizontal
-		if (app.player.x - this.cameraX/* + (this.canvasWidth/4)*/ > this.canvasWidth) {
-			this.cameraX = app.player.x - (this.canvasWidth/* - (this.canvasWidth/4)*/);
-		} else if (app.player.x - this.cameraX/* - (this.canvasWidth/4)*/ < 0) {
-			this.cameraX = app.player.x/* - (this.canvasWidth/4)*/;
-		}
-
-		// vertical
-		if (app.player.y - this.cameraY/* + (this.canvasHeight/4)*/ > this.canvasHeight) {
-			this.cameraY = app.player.y - (this.canvasHeight/* - (this.canvasHeight/4)*/);
-		} else if (app.player.y - this.cameraY/* - (this.canvasHeight/4)*/ < 0) {
-			this.cameraY = app.player.y/* - (this.canvasHeight/4)*/;
-		}
-
-		this.viewportRect.set(this.cameraX, this.cameraY);
-		if (!this.viewportRect.within(this.worldRect)) {
-			if(this.viewportRect.left < this.worldRect.left)
-                this.cameraX = this.worldRect.left;
-            if(this.viewportRect.top < this.worldRect.top)
-                this.cameraY = this.worldRect.top;
-            if(this.viewportRect.right > this.worldRect.right)
-                this.cameraX = this.worldRect.right - this.canvasWidth;
-            if(this.viewportRect.bottom > this.worldRect.bottom)
-                this.cameraY = this.worldRect.bottom - this.canvasHeight;
-		}
+		// centre player horizontally
+		this.cameraX = app.player.x - (this.canvasWidth/2);
+		// centre player vertically
+		this.cameraY = app.player.y - (this.canvasHeight/2);
 	};
 
 	Ooge.Camera = Camera;
