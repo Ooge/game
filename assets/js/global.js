@@ -247,7 +247,7 @@ Ooge.global = {
 		app.ctx.strokeStyle = 'rgb(' + (this.colour.r - 30 )+ ',' + (this.colour.g - 30 ) + ',' + (this.colour.b - 30 ) + ')';
 		app.ctx.lineWidth = 10 * app.scale;
 		app.ctx.beginPath();
-	    app.ctx.arc(this.x + (this.radius/2) - cameraX,this.y + (this.radius/2) - cameraY,this.radius*app.scale,0,Math.PI*2,true);
+	    app.ctx.arc(this.x + (this.radius*app.scale/2) - cameraX,this.y + (this.radius*app.scale/2) - cameraY,this.radius*app.scale,0,Math.PI*2,true);
 	    app.ctx.fill();
 	    app.ctx.stroke();
 		app.ctx.closePath();
@@ -327,6 +327,7 @@ Ooge.global = {
 	};
 
 	Camera.prototype.update = function() {
+		var app = Ooge.global;
 		// centre player horizontally
 		this.cameraX = app.player.x - (this.canvasWidth/2);
 		// centre player vertically
